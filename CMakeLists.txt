@@ -9,7 +9,7 @@ project(cozmonaut)
 add_subdirectory(third_party/fmt)
 
 set(cozmonaut_SRC_FILES
-        src/log.c
+        src/log.cpp
         src/main.c
         )
 
