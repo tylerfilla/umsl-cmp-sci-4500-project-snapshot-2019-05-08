@@ -94,7 +94,7 @@ void log__submit_request(log_request* req) {
   auto msg = fmt::vformat(req->format, args);
 
   // Format the log record string
-  auto rec = fmt::format("{} [{}:{}] {}", log__level_name(req->level), req->file, req->line, msg);
+  auto rec = fmt::format("{} [{}:{}] ({}) {}", log__level_name(req->level), req->file, req->line, req->tag, msg);
 
   // FIXME: Send to standard output for now
   fmt::print("{}\n", rec);

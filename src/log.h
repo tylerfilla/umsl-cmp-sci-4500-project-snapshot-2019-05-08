@@ -12,6 +12,9 @@
 extern "C" {
 #endif
 
+/** The default log record tag. */
+static const char* LOG_TAG = "misc";
+
 /** A log severity level. */
 enum log_level {
   log_level_trace,
@@ -37,6 +40,9 @@ struct log_request {
 
   /** The length of the format arguments array. */
   size_t format_args_len;
+
+  /** The subject tag. */
+  const char* tag;
 
   /** The source line number. */
   unsigned int line;
@@ -176,7 +182,8 @@ void log__submit_request(struct log_request* req);
  * Log a message with the given severity.
  *
  * The source file name and line number at the expansion site are used for the
- * file name and line number fields of the request, respectively.
+ * file name and line number fields of the request, respectively. The tag is
+ * pulled from the nearest LOG_TAG.
  *
  * @param lvl The severity level
  * @param fmt The format string literal
@@ -187,6 +194,7 @@ void log__submit_request(struct log_request* req);
       .format = (const char*) (fmt),                                                                        \
       .format_args = (struct log_format_arg[]) { __VA_ARGS__ },                                             \
       .format_args_len = sizeof((struct log_format_arg[]) { __VA_ARGS__ }) / sizeof(struct log_format_arg), \
+      .tag = LOG_TAG,                                                                                       \
       .line = __LINE__,                                                                                     \
       .file = __FILE__,                                                                                     \
     })
